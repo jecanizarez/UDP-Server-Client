@@ -16,7 +16,7 @@ import java.nio.file.Files;
 
 public class ThreadConexion extends Thread {
 
-	public final static int MESSAGE_SIZE = 1024;
+	public final static int MESSAGE_SIZE = 32000;
 
 	public String archivo;
 
