@@ -128,7 +128,7 @@ public class ThreadConexion extends Thread {
 				
 			}
 			else {
-				respuesta = "no fue enviado exitosamente, se perdió  data o fue modificado, ";
+				respuesta = "no fue enviado exitosamente, se perdio  data o fue modificado, ";
 			}
 			
 			System.out.println("Archivo "+ respuesta + " al cliente "+ cliente );
