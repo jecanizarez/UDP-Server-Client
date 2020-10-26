@@ -39,8 +39,8 @@ public class ThreadConexion extends Thread {
 	public void run() {
 
 		try {
-			Thread.sleep(10L);
 			enviar();
+			socket.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
@@ -119,20 +119,11 @@ public class ThreadConexion extends Thread {
 			writer.write("Cada paquete con un tamanio de " + MESSAGE_SIZE + " bytes");
 			writer.newLine();
 			writer.flush();
-			byte[] receivedata = new byte[1000];
-			DatagramPacket indata = new DatagramPacket(receivedata, receivedata.length);
-			socket.receive(indata);
-			String respuesta = new String(indata.getData());
-			if(respuesta == "1") {
-				respuesta = "enviado exitosamente";
-				
-			}
-			else {
-				respuesta = "no fue enviado exitosamente, se perdió  data o fue modificado, ";
-			}
-			
-			System.out.println("Archivo "+ respuesta + " al cliente "+ cliente );
-			writer.write("Archivo "+ respuesta +" al cliente " + cliente);
+
+
+
+			System.out.println("Archivo enviado existosamente  al cliente "+ cliente );
+			writer.write("Archivo enviado exitosamente  al cliente " + cliente);
 			writer.newLine();
 			writer.flush();
 

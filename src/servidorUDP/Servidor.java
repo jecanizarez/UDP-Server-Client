@@ -19,7 +19,7 @@ public class Servidor {
 
 	public final static String ARCHIVO1 = "100.mp4";
 	public final static String ARCHIVO2 = "250.mp4";
-	public final static int PUERTO = 3000;
+	public final static int PUERTO = 3001;
 	public final static String CARPETA_LOG = "data/logs/";
 	public final static String CARPETA_ARCHIVOS = "data/files/";
 	public final static int BUFFER_SIZE = 64000;
@@ -78,11 +78,6 @@ public class Servidor {
 					indata = new DatagramPacket(receivedata, receivedata.length); 
 					socket.receive(indata);
 					socketClientes[clientes] = indata;
-					String narchivo = arch.split("/")[2];
-					senddata = narchivo.getBytes();
-					
-					outdata = new DatagramPacket(senddata, senddata.length, indata.getAddress(),indata.getPort());
-					socket.send(outdata);
 					clientes++;
 					System.out.println("Se ha conectado el cliente" + clientes + " y esta esperando el envio del archivo");
 	
