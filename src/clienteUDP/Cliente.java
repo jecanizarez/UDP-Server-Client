@@ -26,7 +26,7 @@ import java.net.InetSocketAddress;
 
 public class Cliente {
 
-	private static final int MESSAGE_SIZE = 1024;
+	private static final int MESSAGE_SIZE = 32768;
 	private static final int PUERTO = 3000; 
 	private static final String DIR_DESCARGA = "data/descargas/";
 	public final static String UBICACION_LOG = "data/logs/";	
