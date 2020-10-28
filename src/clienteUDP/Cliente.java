@@ -20,13 +20,14 @@ import java.util.Scanner;
 import java.nio.file.Files;
 import java.net.DatagramPacket; 
 import java.net.DatagramSocket;
+import java.net.InetSocketAddress; 
 import java.net.Inet4Address;
 import java.net.InetAddress;
-import java.net.InetSocketAddress; 
+
 
 public class Cliente {
 
-	private static final int MESSAGE_SIZE = 32768;
+	private static final int MESSAGE_SIZE = 2048;
 	private static final int PUERTO = 3001; 
 	private static final String DIR_DESCARGA = "data/descargas/";
 	public final static String UBICACION_LOG = "data/logs/";	
@@ -57,12 +58,11 @@ public class Cliente {
 			socket = new DatagramSocket();
 			socket.setReceiveBufferSize(BUFFER_SIZE);
 			socket.setSendBufferSize(BUFFER_SIZE);
-			System.out.println("Socket UDP creado");
 			
+			System.out.println("Socket UDP creado");
 			String mensaje = "EL BICHOOO"; 
 			senddata = mensaje.getBytes();
 			InetSocketAddress address = new InetSocketAddress(direccion, PUERTO);
-
 			outdata = new DatagramPacket(senddata, senddata.length,address.getAddress(),PUERTO);
 			socket.send(outdata);
 			System.out.println("Enviando mensaje al servidor para que nos reconozca");
@@ -156,11 +156,11 @@ public class Cliente {
 			System.out.println("La descarga tomó " + (endTime - startTime) + " milisegundos");
 			
 			
-			writer.write("El archivo se entrego, peso: (" + current + " bytes leidos)");
+			writer.write("El archivo se entrego, peso: (" + (numPackets-numPaquetesLoss)*MESSAGE_SIZE + " bytes leidos)");
 			writer.newLine();
 			writer.flush();
 
-			writer.write("Se recibieron " + numPaquetes + " paquetes.");
+			writer.write("Se recibieron " + (numPackets-numPaquetesLoss) + " paquetes.");
 			writer.newLine();
 			writer.flush();
 
@@ -180,7 +180,7 @@ public class Cliente {
 	        for (int i = 0; i < hashSacado.length; i++) {
 	          sb.append(Integer.toString((hashSacado[i] & 0xff) + 0x100, 16).substring(1));
 	        }
-	         
+	        
 	        String hashGenerado = sb.toString();
 	        String estado = "";
 			if (hashRecibido.equals(hashGenerado)) {
@@ -191,11 +191,10 @@ public class Cliente {
 			} else {
 				System.out.println("El archivo ha sido modificado! o se perdió data, Paquetes perdidos: " + numPaquetesLoss);
 				estado = "F";
-				writer.write("El archivo fue modificado");
+				writer.write("El archivo fue modificado o se pedio data,Paquetes perdidos:" + numPaquetesLoss);
 				writer.newLine();
 				writer.flush();
 			}
-			
 			InetSocketAddress address = new InetSocketAddress(direccion, PUERTO);
 			byte [] send = estado.getBytes(); 
 			outdata = new DatagramPacket(send, send.length, address.getAddress(), PUERTO);

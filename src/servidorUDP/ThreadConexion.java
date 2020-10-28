@@ -16,7 +16,7 @@ import java.nio.file.Files;
 
 public class ThreadConexion extends Thread {
 
-	public final static int MESSAGE_SIZE = 32768;
+	public final static int MESSAGE_SIZE = 2048;
 
 	public String archivo;
 
@@ -68,12 +68,12 @@ public class ThreadConexion extends Thread {
 
 		try {
 			File myFile = new File(archivo);
-			byte[] myByteArray = Files.readAllBytes(myFile.toPath());
+			
 
 			
 			fis = new FileInputStream(myFile);
 			bis = new BufferedInputStream(fis);
-
+			byte[] myByteArray = Files.readAllBytes(myFile.toPath());
 			byte[] hash = new byte[61440];
 			MessageDigest md = MessageDigest.getInstance("SHA-1");
 			hash = md.digest(myByteArray);
